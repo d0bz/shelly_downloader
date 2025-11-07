@@ -1,0 +1,5 @@
+# Run your CSV generator every day at 02:00 (container's TZ)
+# Use absolute paths - no user field for root crontab
+0 2 * * * /usr/local/bin/python /app/shelly_id_logger.py >> /var/log/script.log 2>&1
+
+# IMPORTANT: File must end with a newline

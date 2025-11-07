@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  csvbox:
+    build: .
+    container_name: csvbox
+    ports:
+      - "8008:8008"
+    environment:
+      - TZ=Europe/Tallinn   # change if needed
+    volumes:
+      - ./data:/data        # persist and serve CSVs
+      - ./app:/app          # easy script updates without rebuild (optional)
+    restart: unless-stopped
+
+

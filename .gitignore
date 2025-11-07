@@ -1,0 +1,16 @@
+# Python artifacts
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Virtual environments
+.venv/
+
+# Environment & secrets
+.env
+
+# Generated data exports
+data/
+
+# OS noise
+.DS_Store
