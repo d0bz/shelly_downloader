@@ -11,8 +11,15 @@ from dotenv import load_dotenv
 # -----------------------------
 # Config
 # -----------------------------
-BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(BASE_DIR / ".env")
+SCRIPT_DIR = Path(__file__).resolve().parent
+env_path = SCRIPT_DIR / ".env"
+if not env_path.exists():
+    env_path = SCRIPT_DIR.parent / ".env"
+
+if env_path.exists():
+    load_dotenv(env_path)
+else:
+    load_dotenv()
 
 EMAIL = os.getenv("SHELLY_EMAIL")
 PASSWORD = os.getenv("SHELLY_PASSWORD")

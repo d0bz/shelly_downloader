@@ -13,8 +13,9 @@ RUN mkdir -p /data /var/log/supervisor
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# Copy remaining application files
+# Copy remaining application files and env config
 COPY app/ /app/
+COPY .env /app/.env
 
 COPY crontab /tmp/crontab
 RUN touch /var/log/script.log \
@@ -26,5 +27,4 @@ COPY supervisord.conf /etc/supervisor/supervisord.conf
 EXPOSE 8008
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
-
 
