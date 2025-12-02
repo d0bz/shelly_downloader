@@ -5,6 +5,7 @@ import csv
 import time
 from datetime import datetime, timedelta, date
 from pathlib import Path
+import zipfile
 import pandas as pd
 from dotenv import load_dotenv
 
@@ -248,6 +249,24 @@ def run_norpool_logger(output_dir, date_from, date_to):
     print("Nordpool prices saved:", Path(output_dir) / ELERING_FILENAME)
 
 
+def create_data_zip(data_dir=OUTPUT_DIR, zip_name="data.zip"):
+    """Create a fresh zip archive of the data directory contents."""
+    data_dir = Path(data_dir)
+    data_dir.mkdir(parents=True, exist_ok=True)
+    zip_path = data_dir / zip_name
+
+    if zip_path.exists():
+        zip_path.unlink()
+
+    with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+        for path in data_dir.rglob("*"):
+            if path == zip_path or not path.is_file():
+                continue
+            zf.write(path, arcname=path.relative_to(data_dir))
+
+    print(f"Data directory zipped to: {zip_path}")
+
+
 # -----------------------------
 # Main
 # -----------------------------
@@ -299,6 +318,7 @@ def run_all():
         run_frr_logger(OUTPUT_DIR, DATE_FROM, date_to)
     if LOG_NORPOOL:
         run_norpool_logger(OUTPUT_DIR, DATE_FROM, date_to)
+    create_data_zip(OUTPUT_DIR)
 
     print("All logging complete.")
 
